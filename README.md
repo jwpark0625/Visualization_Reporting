@@ -15,8 +15,6 @@ Kaggle에 있는  <Titanic – Machine Learning from Disaster> 의 데이터를 
 
 로지스틱 회귀를 적용
 
-k-폴드 교차검증과 다양한 평가지표를 활용
-
 R markdown으로 결과 보고서를 작성
 
 ## 과제 2 : "Home Price" 분석

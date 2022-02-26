@@ -1,0 +1,54 @@
+---
+title: "<center>타이타닉</center>"
+author: '<div style="text-align: right"> 1조(김상명,박종원,이채림,임낙현,하동호) </div>'
+date: '<div style="text-align: right"> 2022-2-24 </div> '
+output: html_document
+---
+
+#### (1) 탐색적 데이터 분석과 데이터 시각화를 적용해서 데이터셋을 분석
+```{r}
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(hrbrthemes)
+
+train <- read.csv('C:/HDH/my-first-github-base/house/train.csv')
+# 2개 파일이 있었지만 분석하는 것 자체에 의의를 두어 한개 파일만 진행
+```
+
+#### (2) 결측치 이상치 확인,제거
+```{r}
+
+df <- train
+df <- mutate_all(df, ~replace(., is.na(.), 0))  # 결측치 0으로 
+df <- df[, c('SalePrice','LotFrontage','LotArea','YearBuilt')]
+# 판매가, 부동산과 도로와의 거리, 면적, 지어진 년도
+str(df)
+summary(df)
+```
+
+#### (3) 플롯을 통해 상관관계 시각화
+```{r}
+plot(df, col = 'steelblue',pch = 19)
+```
+
+#### (4) 상관계수 구하기
+```{r}
+cor(df)
+```
+#### (5) 종속변수를 판매가로 하는 여러 독립변수들을 추가
+#### 독립변수들을 이렇게 구한 이유는 numeric이며, 가격형성에 영향을 끼치는데 상당하리라 판단하였기 떄문
+```{r}
+model <- lm(SalePrice ~ YearBuilt+LotFrontage+
+              LotArea+YearBuilt, data = df)
+
+summary(model)
+# p value가 부동산과 도로와의 거리가 건축년도, 면적보다 
+# 좀 더 유의하지 않다.
+```
+
+#### (6) 독립변수를 지어진년도로 종속변수를 판매가로 하여 4가지 분석진행
+```{r}
+model <- lm(SalePrice ~ YearBuilt, data = df)
+plot(model)
+```
